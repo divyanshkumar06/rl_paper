@@ -1,0 +1,29 @@
+# RL Tutor Project - .gitignore
+
+# Dependencies
+.venv/
+env/
+venv/
+node_modules/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.ipynb_checkpoints/
+
+# Data & Logs (Excluded for speed/size as discussed)
+d3rlpy_logs/
+*.log
+*.bak
+
+# Models & Checkpoints (Keeping the final model, but excluding checkpoints)
+d3rlpy_logs/
+
+# Hidden Files
+.DS_Store
+Thumbs.db
+.gemini/
+
+# Environment Variables
+.env
