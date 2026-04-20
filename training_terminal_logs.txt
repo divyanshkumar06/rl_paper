@@ -1,0 +1,79 @@
+============================================================
+   RL TUTORING PIPELINE - TRAINING LOGS (SNAPSHOT)
+   Process ID: 40860 | Duration: 9h 34m
+============================================================
+
+[LOG START]
+...
+    [Rate limited] Waiting 2s... (attempt 1/5)
+    [Rate limited] Waiting 4s... (attempt 2/5)
+    [Rate limited] Waiting 8s... (attempt 3/5)
+    [Rate limited] Waiting 16s... (attempt 4/5)
+    [Rate limited] Waiting 32s... (attempt 5/5)
+    [Rate limited] Waiting 2s... (attempt 1/5)
+    [Rate limited] Waiting 4s... (attempt 2/5)
+  Turn 6 done (reward: 0.00)
+    [Rate limited] Waiting 2s... (attempt 1/5)
+    [Rate limited] Waiting 4s... (attempt 2/5)
+    [Rate limited] Waiting 8s... (attempt 3/5)
+    [Rate limited] Waiting 16s... (attempt 4/5)
+    [Rate limited] Waiting 32s... (attempt 5/5)
+    [Rate limited] Waiting 2s... (attempt 1/5)
+    [Rate limited] Waiting 4s... (attempt 2/5)
+    [Rate limited] Waiting 8s... (attempt 3/5)
+    [Rate limited] Waiting 16s... (attempt 4/5)
+    [Rate limited] Waiting 32s... (attempt 5/5)
+    [Rate limited] Waiting 2s... (attempt 1/5)
+    [Rate limited] Waiting 4s... (attempt 2/5)
+  Turn 7 done (reward: 0.00)
+    [Rate limited] Waiting 2s... (attempt 1/5)
+    [Rate limited] Waiting 4s... (attempt 2/5)
+    [Rate limited] Waiting 8s... (attempt 3/5)
+    [Rate limited] Waiting 16s... (attempt 4/5)
+    [Rate limited] Waiting 32s... (attempt 5/5)
+    [Rate limited] Waiting 2s... (attempt 1/5)
+    [Rate limited] Waiting 4s... (attempt 2/5)
+    [Rate limited] Waiting 8s... (attempt 3/5)
+    [Rate limited] Waiting 16s... (attempt 4/5)
+    [Rate limited] Waiting 32s... (attempt 5/5)
+    [Rate limited] Waiting 2s... (attempt 1/5)
+    [Rate limited] Waiting 4s... (attempt 2/5)
+    [Rate limited] Waiting 8s... (attempt 3/5)
+    [Rate limited] Waiting 16s... (attempt 4/5)
+  Turn 8 done (reward: 0.00)
+    [Rate limited] Waiting 2s... (attempt 1/5)
+    [Rate limited] Waiting 4s... (attempt 2/5)
+    [Rate limited] Waiting 8s... (attempt 3/5)
+    [Rate limited] Waiting 16s... (attempt 4/5)
+    [Rate limited] Waiting 32s... (attempt 5/5)
+    [Rate limited] Waiting 2s... (attempt 1/5)
+    [Rate limited] Waiting 4s... (attempt 2/5)
+    [Rate limited] Waiting 8s... (attempt 3/5)
+    [Rate limited] Waiting 2s... (attempt 1/5)
+    [Rate limited] Waiting 4s... (attempt 2/5)
+    [Rate limited] Waiting 8s... (attempt 3/5)
+    [Rate limited] Waiting 16s... (attempt 4/5)
+    [Rate limited] Waiting 32s... (attempt 5/5)
+    [Rate limited] Waiting 2s... (attempt 1/5)
+    [Rate limited] Waiting 4s... (attempt 2/5)
+    [Rate limited] Waiting 8s... (attempt 3/5)
+  Turn 9 done (reward: 0.00)
+    ...
+  ✗ Failed (Max Turns).
+
+--- Conversation 31/100 [Mathematics] ---
+    [Rate limited] Waiting 2s... (attempt 1/5)
+  ✓ Solved at Turn 1!
+
+--- Conversation 32/100 [Mathematics] ---
+    ...
+  Turn 8 done (reward: 0.00)
+    [Rate limited] Waiting 2s... (attempt 1/5)
+    [Rate limited] Waiting 4s... (attempt 2/5)
+    [Rate limited] Waiting 8s... (attempt 3/5)
+    [Rate limited] Waiting 16s... (attempt 4/5)
+    [Rate limited] Waiting 32s... (attempt 5/5)
+
+[STATUS]: ACTIVE - Training continues with exponential backoff.
+[CHECKPOINT]: Last saved in dataset_checkpoint.pkl
+============================================================

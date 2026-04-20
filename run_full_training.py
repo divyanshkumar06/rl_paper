@@ -7,11 +7,11 @@ import os
 
 def run_training():
     print("------------------------------------------------------------")
-    print("STEP 2: TRAINING RL MODEL ON 1,000 DIALOGUES")
+    print("STEP 2: TRAINING RL MODEL ON 2,000 DIALOGUES")
     print("------------------------------------------------------------")
     
     # 1. Load the dataset we just generated
-    dataset_path = 'offline_dataset_exact.pkl'
+    dataset_path = 'offline_dataset_groq_2000.pkl'
     if not os.path.exists(dataset_path):
         print(f"Error: {dataset_path} not found! Run generation first.")
         return
@@ -43,9 +43,9 @@ def run_training():
     # Running 10 Epochs (100 steps each) for a total of 1000 steps
     cql.fit(
         mdp_dataset, 
-        n_steps=1000, 
-        n_steps_per_epoch=100, 
-        experiment_name="cql_presentation_final"
+        n_steps=1000000, 
+        n_steps_per_epoch=10000, 
+        experiment_name="cql_publication_final_2000"
     )
 
     # 5. Calculate Final Metrics (Simulated Success Rate on large dataset)

@@ -1,0 +1,47 @@
+============================================================
+DATASET DOCUMENTATION: RL Tutoring Framework
+TEAM LEADER: Divyansh Kumar (u23ai082)
+============================================================
+
+1. DATASET SOURCE & LINK
+-------------------------
+- Source: This is a synthetically bootstrapped educational dialogue dataset.
+- Generator: Llama-3-8B (via Groq API) using pedagogical personas.
+- Storage: The primary dataset is stored locally as 'offline_dataset_exact.pkl' and 'offline_dataset_groq_2000.pkl'.
+- Link: [Dataset generated dynamically via 'full_pipeline_groq_2000.py']
+
+2. HOW DATASET IS USED IN CODE
+------------------------------
+The dataset is loaded and processed in 'run_full_training.py' and 'full_pipeline_groq_2000.py'.
+- Import Location: Look for 'MDPDataset' in the training functions.
+- Code snippet:
+  states = np.array([d['state'] for d in dataset])
+  actions = np.array([d['action'] for d in dataset])
+  mdp_dataset = MDPDataset(observations=states, actions=actions, rewards=rewards, terminals=terminals)
+
+3. PARTIAL VS FULL DATASET
+--------------------------
+- Training is performed on the FULL generated dataset (typically 2000 multi-turn dialogues for robust convergence).
+- Each dialogue consists of 5-10 transition pairs (state, action, reward, next_state).
+
+4. TRAINING & SIMULATION PARAMETERS
+-----------------------------------
+- State Representation (409D):
+    - 25D Behavioral Dimensions: Frustration, Confidence, Correctness, etc. (Extracted via LLM classification).
+    - 384D Semantic Dimensions: Domain context (Mathematics, Physics, Chemistry, etc.) extracted via Sentence-BERT.
+- Action Classes (Discrete Action Space):
+    0. Instruct (Partial Hint)
+    1. Encourage (Motivational Support)
+    2. Verify (Sub-step logic check)
+    3. Guide (Socratic Guiding Question)
+- Reward Shaping:
+    - Sparse Reward: +1.0 for final success.
+    - Dense Reward: +0.2 for mathematical effort (writing formula), -0.1 for frustration.
+- Simulation Personas:
+    - Shy: Highly hesitant, low confidence.
+    - Overconfident: High confidence, avoids sub-step checks.
+    - Distracted: Digresses to random topics.
+
+5. EXAMPLE PROMPT (LLM CLASSIFIER)
+----------------------------------
+"Analyze the tutoring dialogue and output exactly 25 numbers... Q2: Has the student solved the problem (1/0)? Q10: Is student expressing frustration (1/0)?"

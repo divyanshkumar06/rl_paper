@@ -12,13 +12,15 @@ __pycache__/
 *$py.class
 .ipynb_checkpoints/
 
-# Data & Logs (Excluded for speed/size as discussed)
+# Data & Models
 d3rlpy_logs/
-*.log
-*.bak
-
-# Models & Checkpoints (Keeping the final model, but excluding checkpoints)
-d3rlpy_logs/
+*.pkl
+*.txt
+!ReadMe_divyansh_kumar.txt
+!Execution-Step_divyansh_kumar.txt
+!Dataset_divyansh_kumar.txt
+!training_terminal_logs.txt
+!temp_all_code.txt
 
 # Hidden Files
 .DS_Store

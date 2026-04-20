@@ -1,6 +1,6 @@
 """
 ==========================================================
-  FULL INTEGRATED PIPELINE: 100 Dialogues (Groq)
+  FULL INTEGRATED PIPELINE: 2000 Dialogues (Groq)
   Innovation: 409D Context-Aware State (25D + 384D)
   Techniques: CQL, HER, Dense Shaping, D+ Augmentation
 ==========================================================
@@ -34,17 +34,25 @@ client = OpenAI(
 )
 MODEL_NAME = "llama-3.1-8b-instant"
 
-NUM_CONVERSATIONS = 100 # Adjusted for your request
+NUM_CONVERSATIONS = 2000 
 MAX_TURNS = 10
 SAVE_EVERY = 10  # Checkpoint every 10 conversations
 
-# Multi-Domain Problems
+from problems_zeroshot import ZERO_SHOT_PROBLEMS
+
+# Multi-Domain Problems (Adding Zero-Shot domains for training diversity)
 PROBLEMS = [
     {"domain": "Mathematics", "problem": "Carla is downloading a 200 GB file... Answer: 180.", "mistake": "Resumes instead of restarting."},
     {"domain": "Physics", "problem": "A car accelerates from rest at 5 m/s^2. How long to reach 30 m/s? Answer: 6.", "mistake": "Mixes up distance/velocity formulas."},
     {"domain": "History", "problem": "Who was the first President of the US? Answer: George Washington, 1789.", "mistake": "Lincoln in 1861."},
     {"domain": "Programming", "problem": "Python function for list length. Answer: len(lst).", "mistake": "Forgot indentation in loop."}
-]
+] + ZERO_SHOT_PROBLEMS
+
+PERSONAS = {
+    "Struggling": "You are a shy student. You respond with 'Idk' or 'can you help more' very often. You need encouragement.",
+    "Overconfident": "You are a bold student. You make mistakes but you insist you are right until the tutor proves otherwise.",
+    "Distracted": "You are a student who gets bored easily. You talk about movies or random facts unless the tutor brings you back to topic."
+}
 
 ACTION_SPACE = [
     "instruct the student with a partial hint",
@@ -73,15 +81,32 @@ def api_call_with_retry(messages, max_tokens=150, temperature=0.7, max_retries=5
                 time.sleep(2)
     return None
 
-def simulate_student(history, prob_obj):
-    sys_prompt = f"You are a struggling student. Problem: {prob_obj['problem']}. Mistake: {prob_obj['mistake']}. Respond briefly."
+def simulate_student(history, prob_obj, persona_type="Struggling"):
+    persona_desc = PERSONAS.get(persona_type, PERSONAS["Struggling"])
+    sys_prompt = f"{persona_desc} Problem: {prob_obj['problem']}. Mistake: {prob_obj['mistake']}. Respond briefly."
     return api_call_with_retry([{"role": "system", "content": sys_prompt}] + history)
 
 def simulate_tutor(history, action_idx, prob_obj):
     action = ACTION_SPACE[action_idx]
-    prompt = f"Tutor the student. Goal: {action}. Dialogue:\n{history}\n[Generation] Tutor:"
+    # Explainable RL Prompting Logic
+    prompt = f"""You're an expert AI tutor. 
+1. analyze the student's last message and pedagogical state. 
+2. explain your reasoning for choosing the action: {action}.
+3. execute the action. 
+
+Output Format:
+[Reasoning] (Your logical explanation here)
+[Tutor Hint] (Concise pedagogical response)
+
+Dialogue:
+{history}
+"""
     res = api_call_with_retry([{"role": "user", "content": prompt}])
-    return res.replace("[Generation] Tutor:", "").strip() if res else "Focus on the task."
+    if res:
+        reasoning = res.split("[Tutor Hint]")[0].replace("[Reasoning]", "").strip()
+        hint = res.split("[Tutor Hint]")[-1].strip()
+        return hint, reasoning
+    return "Focus on the task.", "Default safety action."
 
 def extract_25d_state(history, current_turn):
     prompt = f"Analyze dialogue. Return JSON [25 numbers]. Hist: {history[-4:]}"
@@ -106,7 +131,7 @@ def step1_generate():
     print(f"\n🚀 STEP 1: GENERATING {NUM_CONVERSATIONS} REAL GROQ DIALOGUES...")
     dataset = []
     successes = 0
-    checkpoint_file = "groq_100_checkpoint.pkl"
+    checkpoint_file = "groq_2000_checkpoint.pkl"
 
     start_idx = 0
     if os.path.exists(checkpoint_file):
@@ -129,10 +154,14 @@ def step1_generate():
             # Action (Bias: Encouraging if frustrated)
             a = 1 if s_base[9] == 1.0 else random.randint(0, 3)
             
-            t_msg = simulate_tutor(history, a, prob)
-            history.append({"role": "assistant", "content": t_msg})
+            # Choose random persona for this conversation
+            persona_name = random.choice(list(PERSONAS.keys()))
             
-            s_msg = simulate_student(history, prob)
+            t_msg, t_reason = simulate_tutor(history, a, prob)
+            history.append({"role": "assistant", "content": t_msg})
+            print(f"  [Reasoning]: {t_reason[:60]}...")
+            
+            s_msg = simulate_student(history, prob, persona_type=persona_name)
             history.append({"role": "user", "content": s_msg})
             
             is_solved = prob['problem'].split("Answer: ")[-1].strip().lower() in s_msg.lower()
@@ -167,7 +196,7 @@ def step1_generate():
                 pickle.dump({'dataset': dataset, 'successes': successes, 'next_idx': i+1}, f)
             print(f"Checkpoint saved ({i+1}/{NUM_CONVERSATIONS})")
 
-    with open("offline_dataset_groq_100.pkl", "wb") as f:
+    with open("offline_dataset_groq_2000.pkl", "wb") as f:
         pickle.dump(dataset, f)
     return dataset, successes
 
@@ -187,8 +216,7 @@ def step2_3_train(dataset):
         batch_size=32, alpha=4.0, gamma=0.9, learning_rate=3e-5
     ).create(device='cpu')
     
-    cql.build_with_dataset(mdp)
-    cql.fit(mdp, n_steps=2000, n_steps_per_epoch=500, experiment_name="groq_100_final")
+    cql.fit(mdp, n_steps=1000000, n_steps_per_epoch=10000, experiment_name="groq_2000_publication_final")
     return cql
 
 if __name__ == "__main__":

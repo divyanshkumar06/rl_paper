@@ -1,0 +1,47 @@
+============================================================
+EXECUTION STEPS: End-to-End Project Pipeline
+TEAM LEADER: Divyansh Kumar (u23ai082)
+============================================================
+
+Follow these steps in order to reproduce the results and interactive dashboard:
+
+STEP 1: CONFIGURATION
+---------------------
+1. Environment: Ensure all dependencies from 'ReadMe_divyansh_kumar.txt' are installed.
+2. API Key: Open the '.env' file in the root directory. Paste your Groq API key:
+   GROQ_API_KEY=gsk_xxxxxxxxxxxx...
+
+STEP 2: DATA BOOTSTRAPPING (GATHERING INITIAL DIALOGUES)
+--------------------------------------------------------
+Run the following script to generate 2000 pedagogical dialogues using the Llama-3-8B model:
+   python full_pipeline_groq_2000.py
+- This script simulates 3 distinct student personas (Shy, Overconfident, Distracted).
+- It also performs Hindsight Experience Replay (HER) to relabel failure trajectories.
+- Output: 'offline_dataset_groq_2000.pkl'
+
+STEP 3: OFFLINE RL TRAINING
+---------------------------
+Execute the training script to train the Discrete CQL (Conservative Q-Learning) policy:
+   python run_full_training.py
+- This uses the generated .pkl file and applies 1,000,000 optimization steps for publication-grade convergence.
+- Metrics will be logged in the 'd3rlpy_logs/' directory.
+
+STEP 4: ANALYTICS & GRAPH GENERATION
+------------------------------------
+Run these scripts to generate the research benchmarks seen in the presentation:
+1. Success Benchmarks: python plot_results.py
+2. Efficiency Metrics: python plot_efficiency.py
+3. Innovation Comparison: python plot_innovation_vs_paper.py
+- Output: Several .png images (figure_3_reproduced.png, efficiency_turns_benchmark.png, etc.)
+
+STEP 5: LAUNCH INTERACTIVE DASHBOARD (FINAL OUTPUT)
+---------------------------------------------------
+Run the Streamlit dashboard to demonstrate the live model behavior and explainable AI reasoning:
+   streamlit run simulator_dashboard.py
+- Once running, open http://localhost:8501 in your browser.
+- Use the "Architecture" and "Live Simulator" tabs to show the model's decision-making logic.
+
+STEP 6: TERMINAL EVALUATION (OPTIONAL VIVA TRACE)
+------------------------------------------------
+To show the step-by-step mathematical trace of a single dialogue for defense purposes:
+   python viva_demo_trace.py
