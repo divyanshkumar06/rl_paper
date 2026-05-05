@@ -1,7 +1,5 @@
 ============================================================
 PROJECT NAME: Efficient Reinforcement Learning for Optimising Multi-turn Student Outcomes with LLM Tutors 
-
-
 GROUP NAME  : DTH
 ============================================================
 
@@ -10,7 +8,6 @@ TEAM DETAILS:
 1. Team Leader:
    Name    : Divyansh Kumar
    Roll No : U23AI082
-   Mobile  : [Provided upon request]
 
 2. Team Member:
    Name    : Tanu Meena
@@ -20,30 +17,15 @@ TEAM DETAILS:
    Name    : Hanmant Jajulwar
    Roll No : U23AI098
 
-PROJECT DESCRIPTION:
---------------------
-An advanced Reinforcement Learning (RL) framework designed for multi-turn pedagogical interactions. Use a 409-dimensional context-aware state representation and Discrete Conservative Q-Learning (CQL) to optimize tutor response strategies across multiple academic domains (Mathematics, Physics, Chemistry, History, Programming).
+TEAM CONTRIBUTIONS:
+-------------------
 
-ENVIRONMENT SETUP:
-------------------
+Divyansh Kumar (U23AI082)
+As the Team Leader, Divyansh was responsible for the core research, end-to-end implementation, and replication of the baseline paper. He spearheaded the development of the 409-dimensional context-aware state representation and the Conservative Q-Learning (CQL) training logic. His work involved bridging the gap between theoretical pedagogy and scalable RL code, ensuring that the final model not only replicated the original research but also introduced significant architectural innovations in reward shaping and hindsight replay.
 
-Option A: Using PIP (Standard)
-1. Ensure Python 3.8+ is installed.
-2. Install required libraries:
-   pip install d3rlpy sentence-transformers openai streamlit python-dotenv numpy matplotlib
-3. Configure API Keys:
-   Create a .env file and add: GROQ_API_KEY=your_key_here
+Tanu Meena (U23AI076)
+Tanu focused on the critical phase of Idea Replication and Benchmark Validation. She was responsible for meticulously reproducing the experimental metrics and success rates from the reference research paper to ensure a robust scientific baseline. Her work included managing the cross-domain evaluation tasks (Math, Physics, and History) and ensuring that the project's reproduced results were scientifically consistent with the original paper's reported 60.33% success rate.
 
-Option B: Using Conda
-1. Create environment:
-   conda create -n rl_tutor python=3.10
-2. Activate:
-   conda activate rl_tutor
-3. Install dependencies:
-   conda install pip
-   pip install d3rlpy sentence-transformers openai streamlit python-dotenv numpy matplotlib
+Hanmant Jajulwar (U23AI098)
+Hanmant provided the foundational conceptual vision for the project, identifying the key pedagogical limitations in standard LLMs that initiated this research. He contributed to the early-stage strategy for developing a multi-persona tutoring simulator. Additionally, he led the development of the interactive Streamlit dashboard, translating the project's complex RL decisions into a user-friendly interface that demonstrates the practical utility of the team's conceptual idea.
 
-Option C: Cloud (Google Colab)
-1. Upload the project folder to Google Drive.
-2. Use '!pip install' commands provided in Step 1 of 'Execution-Step_divyansh_kumar.txt' to install libraries.
-3. Access files via Drive mounting.
